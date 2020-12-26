@@ -47,6 +47,10 @@
     [pauseBtn addTarget:self action:@selector(pauseAction) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:pauseBtn];
     
+
+    NSInteger duration = [self durationWithVideo:[[NSBundle mainBundle] URLForResource:@"Wonderful Tonight"
+    withExtension:@"wav"]];
+    NSLog(@"%ld",duration);
 }
 
 - (void)playAction {
@@ -87,6 +91,15 @@
     }
 }
 
+#pragma mark --获取音频文件的时长(秒)
+-(NSInteger)durationWithVideo:(NSURL *)urlPath
+{
+    AVURLAsset *audioAsset=[AVURLAsset assetWithURL:urlPath];
+    CMTime   durationTime = audioAsset.duration;
+    NSInteger    reultTime=0;
+    reultTime = CMTimeGetSeconds(durationTime);
+    return  reultTime;
+}
 #pragma mark -- 创建一个音频播放器
 - (AVAudioPlayer *)playerForFile:(NSString *)name {
 
